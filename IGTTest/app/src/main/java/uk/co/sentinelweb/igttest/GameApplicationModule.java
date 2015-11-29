@@ -17,7 +17,7 @@ import uk.co.sentinelweb.igttest.net.Services;
 @Module
 public class GameApplicationModule {
     private Application mApp;
-    
+
     public GameApplicationModule(Application app) {
         mApp = app;
     }

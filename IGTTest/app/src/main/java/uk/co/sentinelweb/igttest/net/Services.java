@@ -16,11 +16,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import dagger.Provides;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import uk.co.sentinelweb.igttest.Const;
-import uk.co.sentinelweb.igttest.GameApplication;
 import uk.co.sentinelweb.igttest.net.services.GameService;
 
 /**
@@ -30,9 +28,20 @@ import uk.co.sentinelweb.igttest.net.services.GameService;
 public class Services {
 
     public static final String BASE_URL = "https://dl.dropboxusercontent.com/u/49130683/";
-    private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
     public static final long CACHE_TIME_SECONDS = DateUtils.HOUR_IN_MILLIS / 1000;
-
+    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Response originalResponse = chain.proceed(chain.request());
+            return originalResponse.newBuilder()
+                    // .header("Cache-Control", String.format("public, only-if-cached, max-age=%d, max-stale=%d", CACHE_TIME_SECONDS,  0))
+                    .header("Cache-Control", String.format("public,  max-age=%d", CACHE_TIME_SECONDS))
+                    .removeHeader("Pragma")
+                    .removeHeader("pragma")
+                    .build();
+        }
+    };
+    private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
     private Cache cache = null;
     private Retrofit retroFit = null;
 
@@ -80,7 +89,9 @@ public class Services {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         okHttpClient.interceptors().add(interceptor);
 
-        if (cache != null) okHttpClient.setCache(cache);
+        if (cache != null) {
+            okHttpClient.setCache(cache);
+        }
         okHttpClient.setConnectTimeout(30, TimeUnit.SECONDS);
         okHttpClient.setReadTimeout(30, TimeUnit.SECONDS);
 
@@ -89,18 +100,5 @@ public class Services {
 
         return okHttpClient;
     }
-
-    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Response originalResponse = chain.proceed(chain.request());
-            return originalResponse.newBuilder()
-                   // .header("Cache-Control", String.format("public, only-if-cached, max-age=%d, max-stale=%d", CACHE_TIME_SECONDS,  0))
-                    .header("Cache-Control", String.format("public,  max-age=%d", CACHE_TIME_SECONDS))
-                    .removeHeader("Pragma")
-                    .removeHeader("pragma")
-                    .build();
-        }
-    };
 
 }

@@ -5,23 +5,28 @@ import android.content.SharedPreferences;
 
 import javax.inject.Inject;
 
-import uk.co.sentinelweb.igttest.model.GameList;
-import uk.co.sentinelweb.igttest.model.dummy.DummyGameContent;
-
 /**
+ * Application level object
+ *
  * Created by robert on 28/11/15.
  */
 public class GameApplication extends Application {
-    // TODO remove
-    //public static GameList testGameList = DummyGameContent.generate();
+
     public static GameApplication staticInstance = null;
+
+    // not used: just to show injection
     @Inject
     SharedPreferences gamePreferences;
 
     GameApplicationComponent component;
 
-    @Inject public GameApplication() {
+    @Inject
+    public GameApplication() {
         staticInstance = this;
+    }
+
+    public static GameApplication getStaticInstance() {
+        return staticInstance;
     }
 
     @Override
@@ -29,10 +34,6 @@ public class GameApplication extends Application {
         super.onCreate();
         component = GameApplicationComponent.Initializer.init(this);
         component.inject(this);
-    }
-
-    public static GameApplication getStaticInstance() {
-        return staticInstance;
     }
 
     public GameApplicationComponent getComponent() {

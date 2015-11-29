@@ -26,35 +26,6 @@ public class GameItemAdapter extends Adapter {
         this.gameList = gameList;
     }
 
-
-    // view holder is public to use for databinding onClick
-    public class GameItemViewHolder extends RecyclerView.ViewHolder {
-        ListItemGameBinding listItemGameBinding;
-        int currentPosition;
-        Game game;
-        public GameItemViewHolder(final ListItemGameBinding listItemGameBinding) {
-            super( listItemGameBinding.getRoot());
-            this.listItemGameBinding = listItemGameBinding;
-            listItemGameBinding.setHandlers(this);
-        }
-
-        public void onClick(View v) {
-            if (listener != null) {
-                listener.onItemClick(currentPosition, gameList.getGames().get(currentPosition));
-                setSelectedItemPosition(currentPosition);
-            }
-        }
-
-        public void setCurrentPosition(int position) {
-            this.currentPosition = position;
-            final Game game = gameList.getGames().get(position);
-            listItemGameBinding.setGame(game);
-            listItemGameBinding.getRoot().setSelected(selectedItemPosition == position);
-        }
-
-
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,22 +50,55 @@ public class GameItemAdapter extends Adapter {
         this.listener = listener;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int position, Game game);
-    }
-
     public int getSelectedItemPosition() {
         return selectedItemPosition;
     }
 
     public void setSelectedItemPosition(final int selectedItemPosition) {
+        int oldSelectedPosition = selectedItemPosition;
         this.selectedItemPosition = selectedItemPosition;
-        notifyDataSetChanged();
+        if (oldSelectedPosition > -1) {
+            notifyItemChanged(selectedItemPosition);
+        }
+        notifyItemChanged(selectedItemPosition);
     }
 
     public void setItems(final GameList items) {
         gameList = items;
         notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, Game game);
+    }
+
+    // view holder is public to use for databinding onClick
+    public class GameItemViewHolder extends RecyclerView.ViewHolder {
+        ListItemGameBinding listItemGameBinding;
+        int currentPosition;
+        Game game;
+
+        public GameItemViewHolder(final ListItemGameBinding listItemGameBinding) {
+            super(listItemGameBinding.getRoot());
+            this.listItemGameBinding = listItemGameBinding;
+            listItemGameBinding.setHandlers(this);
+        }
+
+        public void onClick(View v) {
+            if (listener != null) {
+                listener.onItemClick(currentPosition, gameList.getGames().get(currentPosition));
+                setSelectedItemPosition(currentPosition);
+            }
+        }
+
+        public void setCurrentPosition(int position) {
+            this.currentPosition = position;
+            final Game game = gameList.getGames().get(position);
+            listItemGameBinding.setGame(game);
+            listItemGameBinding.getRoot().setSelected(selectedItemPosition == position);
+        }
+
+
     }
 
 }

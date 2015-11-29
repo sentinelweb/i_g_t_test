@@ -38,31 +38,6 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
-    /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private Callbacks mCallbacks = sDummyCallbacks;
-
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-
-
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        public void onItemSelected(int id);
-    }
-
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -72,7 +47,15 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
         public void onItemSelected(int id) {
         }
     };
-
+    /**
+     * The fragment's current callback object, which is notified of list item
+     * clicks.
+     */
+    private Callbacks mCallbacks = sDummyCallbacks;
+    /**
+     * The current activated item position. Only used on tablets.
+     */
+    private int mActivatedPosition = ListView.INVALID_POSITION;
     private RecyclerView list;
 
     /**
@@ -96,7 +79,7 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
     }
 
     private void setAdapter(final GameList testGameList) {
-        if (list.getAdapter()==null) {
+        if (list.getAdapter() == null) {
             final GameItemAdapter adapter = new GameItemAdapter(testGameList);
             adapter.setOnItemClickListener(this);
             list.setAdapter(adapter);
@@ -128,7 +111,6 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
         mCallbacks = (Callbacks) activity;
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -136,7 +118,6 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sDummyCallbacks;
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -181,7 +162,6 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
         return null;
     }
 
-
     @Override
     public void onLoadFinished(final Loader<GameList> loader, final GameList data) {
         Log.d(Const.LOG, "got list:" + data);
@@ -191,6 +171,22 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
     @Override
     public void onLoaderReset(final Loader<GameList> loader) {
 
+    }
+
+    public void reload() {
+        getLoaderManager().initLoader(LoaderId.LIST_LOADER, null, this);
+    }
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callbacks {
+        /**
+         * Callback for when an item has been selected.
+         */
+        void onItemSelected(int id);
     }
 
 }

@@ -10,7 +10,6 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -41,6 +40,8 @@ public class GameDetailFragment extends Fragment implements LoaderManager.Loader
     FragmentGameDetailBinding viewDataBound;
 
     String currency = "?";
+    private CollapsingToolbarLayout appBarLayout;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -56,8 +57,8 @@ public class GameDetailFragment extends Fragment implements LoaderManager.Loader
             gameIndex = getArguments().getInt(ARG_ITEM_ID);
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
+            appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            if (appBarLayout != null && mItem != null) {
                 appBarLayout.setTitle(mItem.getName());
             }
         }
@@ -66,7 +67,7 @@ public class GameDetailFragment extends Fragment implements LoaderManager.Loader
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewDataBound = FragmentGameDetailBinding.inflate(inflater,container,false);
+        viewDataBound = FragmentGameDetailBinding.inflate(inflater, container, false);
         viewDataBound.setNumberFormatter(numberFormat);
         viewDataBound.setTimeFormatter(dateFormat);
         viewDataBound.setCurrency(currency);
@@ -101,11 +102,14 @@ public class GameDetailFragment extends Fragment implements LoaderManager.Loader
             mItem = null;
         }
         Game displayGame = mItem;
-        if (displayGame==null) {
-            displayGame = new Game(new Date(),0,"No Game");
+        if (displayGame == null) {
+            displayGame = new Game(new Date(), 0, "No Game");
         }
         viewDataBound.setCurrency(currency);
         viewDataBound.setGame(displayGame);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(displayGame.getName());
+        }
 
     }
 

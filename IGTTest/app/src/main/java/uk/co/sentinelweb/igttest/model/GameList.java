@@ -1,13 +1,14 @@
 package uk.co.sentinelweb.igttest.model;
 
-import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 /**
  * Game list object
  */
-public class GameList  {
+public class GameList {
     @Expose
     @SerializedName("currency")
     private String currency;
