@@ -1,0 +1,60 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="game"
+            type="uk.co.sentinelweb.igttest.model.Game"/>
+
+        <variable
+            name="currency"
+            type="java.lang.String"/>
+
+        <variable
+            name="numberFormatter"
+            type="java.text.NumberFormat"/>
+
+        <variable
+            name="timeFormatter"
+            type="java.text.DateFormat"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:text="@{game.name}"
+            android:textIsSelectable="true"
+            tools:context=".GameDetailFragment"/>
+
+        <TextView
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:text="@{game.jackpotDisplay+' '+currency}"
+            android:textIsSelectable="true"
+            tools:context=".GameDetailFragment"/>
+        <!-- doesn't work -->
+        <!-- android:text="@{numberFormatter.format(game.jackpotDisplay)}" -->
+        <TextView
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:text="@{game.dateDisplay}"
+            android:textIsSelectable="true"
+            tools:context=".GameDetailFragment"/>
+        <!-- doesn't work -->
+        <!-- android:text="@{timeFormatter.format(game.date)}" -->
+    </LinearLayout>
+</layout>
