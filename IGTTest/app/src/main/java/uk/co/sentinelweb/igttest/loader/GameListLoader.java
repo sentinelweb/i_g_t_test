@@ -8,9 +8,10 @@ import retrofit.Call;
 import uk.co.sentinelweb.igttest.GameApplication;
 import uk.co.sentinelweb.igttest.model.GameList;
 import uk.co.sentinelweb.igttest.net.services.GameService;
-import uk.co.sentinelweb.igttest.net.services.ServiceCall;
+import uk.co.sentinelweb.igttest.net.ServiceCall;
 
 /**
+ * Loader for the game list
  * Created by robert on 28/11/15.
  */
 public class GameListLoader extends LoaderParent<GameList> {
@@ -31,7 +32,6 @@ public class GameListLoader extends LoaderParent<GameList> {
     @Override
     public GameList loadInBackground() {
         final Call<GameList> gameListCall = gameService.listGames(null);
-
         return new ServiceCall<GameList>().call(gameListCall);
     }
 

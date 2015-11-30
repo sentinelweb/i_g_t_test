@@ -1,4 +1,7 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">IGTTest</string>
     <string name="title_game_detail">Game Detail</string>
+    <string name="invalid_number">--</string>
+    <string name="date_format"><xliff:g example="11/11/11" id="date">%1$s</xliff:g> \@ <xliff:g example="11:11:11" id="time">%2$s</xliff:g></string>
+    <string name="invalid_date">--</string>
 </resources>

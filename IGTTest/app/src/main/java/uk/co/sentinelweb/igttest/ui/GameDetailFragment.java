@@ -22,6 +22,7 @@ import uk.co.sentinelweb.igttest.databinding.FragmentGameDetailBinding;
 import uk.co.sentinelweb.igttest.loader.GameListLoader;
 import uk.co.sentinelweb.igttest.model.Game;
 import uk.co.sentinelweb.igttest.model.GameList;
+import uk.co.sentinelweb.igttest.util.FormatUtil;
 
 /**
  * A fragment representing a single Game detail screen.
@@ -35,6 +36,7 @@ public class GameDetailFragment extends Fragment implements LoaderManager.Loader
 
     Game mItem;
     int gameIndex;
+    FormatUtil formatUtil;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
     DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, Locale.getDefault());
     FragmentGameDetailBinding viewDataBound;
@@ -68,9 +70,9 @@ public class GameDetailFragment extends Fragment implements LoaderManager.Loader
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewDataBound = FragmentGameDetailBinding.inflate(inflater, container, false);
-        viewDataBound.setNumberFormatter(numberFormat);
-        viewDataBound.setTimeFormatter(dateFormat);
         viewDataBound.setCurrency(currency);
+        formatUtil = new FormatUtil(getActivity());
+        viewDataBound.setFormatter(formatUtil);
         return viewDataBound.getRoot();
     }
 
@@ -78,6 +80,7 @@ public class GameDetailFragment extends Fragment implements LoaderManager.Loader
     public void onAttach(final Context context) {
         super.onAttach(context);
         getLoaderManager().initLoader(LoaderId.GAME_LOADER, null, this);
+
     }
 
     @Override

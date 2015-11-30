@@ -2,13 +2,15 @@ package uk.co.sentinelweb.igttest.model;
 
 import com.google.gson.annotations.Expose;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
+import uk.co.sentinelweb.igttest.util.FormatUtil;
 
+/**
+ * An individual game.
+ */
 public class Game {
 
     @Expose
@@ -51,17 +53,15 @@ public class Game {
     }
 
     // should be able to format using databinding but doesn't seem to work
-    public String getJackpotDisplay() {
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
-        return numberFormat.format(jackpot);
-    }
-
-    // should be able to format using databinding but doesn't seem to work
-    public String getDateDisplay() {
-        DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, Locale.getDefault());
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.getDefault());
-        dateFormat.setTimeZone(TimeZone.getDefault());
-        return dateFormat.format(date) + " @ " + timeFormat.format(date);
-    }
+//    public String getJackpotDisplay() {
+//        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+//        return numberFormat.format(jackpot);
+//    }
+//
+//    // should be able to format using databinding but doesn't seem to work
+//    public String getDateDisplay() {
+//        final Date date = this.date;
+//        return new FormatUtil().formatDateString(date);
+//    }
 
 }

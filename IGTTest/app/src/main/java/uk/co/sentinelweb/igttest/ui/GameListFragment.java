@@ -17,19 +17,13 @@ import android.widget.ListView;
 import uk.co.sentinelweb.igttest.Const;
 import uk.co.sentinelweb.igttest.LoaderId;
 import uk.co.sentinelweb.igttest.R;
-import uk.co.sentinelweb.igttest.adapter.GameItemAdapter;
+import uk.co.sentinelweb.igttest.ui.adapter.GameItemAdapter;
 import uk.co.sentinelweb.igttest.loader.GameListLoader;
 import uk.co.sentinelweb.igttest.model.Game;
 import uk.co.sentinelweb.igttest.model.GameList;
 
 /**
- * A list fragment representing a list of Games. This fragment
- * also supports tablet devices by allowing list items to be given an
- * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link GameDetailFragment}.
- * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
+ * A list fragment representing a list of Games.
  */
 public class GameListFragment extends Fragment implements GameItemAdapter.OnItemClickListener, LoaderManager.LoaderCallbacks<GameList> {
 
@@ -38,6 +32,7 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -47,11 +42,13 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
         public void onItemSelected(int id) {
         }
     };
+
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
     private Callbacks mCallbacks = sDummyCallbacks;
+
     /**
      * The current activated item position. Only used on tablets.
      */
@@ -129,18 +126,9 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
     }
 
     /**
-     * Turns on activate-on-click mode. When this mode is on, list items will be
-     * given the 'activated' state when touched.
+     * Sets the selected item position here and in the adapter.
+     * @param position active position
      */
-    //public void setActivateOnItemClick(boolean activateOnItemClick) {
-    // When setting CHOICE_MODE_SINGLE, ListView will automatically
-    // give items the 'activated' state when touched.
-//        list.setChoiceMode(activateOnItemClick
-//                ? ListView.CHOICE_MODE_SINGLE
-//                : ListView.CHOICE_MODE_NONE);
-    //}
-
-    //
     private void setActivatedPosition(int position) {
         mActivatedPosition = position;
         if (list != null && list.getAdapter() != null) {
@@ -173,8 +161,11 @@ public class GameListFragment extends Fragment implements GameItemAdapter.OnItem
 
     }
 
+    /**
+     * cAllows external useing classes to reload he data (from the reload button)
+     */
     public void reload() {
-        getLoaderManager().initLoader(LoaderId.LIST_LOADER, null, this);
+        getLoaderManager().restartLoader(LoaderId.LIST_LOADER, null, this);
     }
 
     /**

@@ -13,12 +13,17 @@
             type="java.lang.String"/>
 
         <variable
-            name="numberFormatter"
-            type="java.text.NumberFormat"/>
+            name="formatter"
+            type="uk.co.sentinelweb.igttest.util.FormatUtil"/>
 
-        <variable
-            name="timeFormatter"
-            type="java.text.DateFormat"/>
+        <!-- doesn't work : left here because it should -->
+        <!--<variable-->
+        <!--name="numberFormatter"-->
+        <!--type="java.text.NumberFormat"/>-->
+
+        <!--<variable-->
+        <!--name="timeFormatter"-->
+        <!--type="java.text.DateFormat"/>-->
     </data>
 
     <LinearLayout
@@ -41,20 +46,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            android:text="@{game.jackpotDisplay+' '+currency}"
+            android:text="@{formatter.formatNumberString(game.jackpot)+' '+currency}"
             android:textIsSelectable="true"
             tools:context=".GameDetailFragment"/>
-        <!-- doesn't work -->
+        <!-- doesn't work : left here because it should -->
         <!-- android:text="@{numberFormatter.format(game.jackpotDisplay)}" -->
         <TextView
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            android:text="@{game.dateDisplay}"
+            android:text="@{formatter.formatDateString(game.date)}"
             android:textIsSelectable="true"
             tools:context=".GameDetailFragment"/>
-        <!-- doesn't work -->
+        <!-- doesn't work : left here because it should -->
         <!-- android:text="@{timeFormatter.format(game.date)}" -->
     </LinearLayout>
 </layout>

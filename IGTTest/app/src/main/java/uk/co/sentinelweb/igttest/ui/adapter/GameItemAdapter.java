@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.igttest.adapter;
+package uk.co.sentinelweb.igttest.ui.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -14,7 +14,7 @@ import uk.co.sentinelweb.igttest.model.Game;
 import uk.co.sentinelweb.igttest.model.GameList;
 
 /**
- *
+ * The adapter fort he list of items.
  */
 public class GameItemAdapter extends Adapter {
 
@@ -72,7 +72,12 @@ public class GameItemAdapter extends Adapter {
         void onItemClick(int position, Game game);
     }
 
-    // view holder is public to use for databinding onClick
+    /**
+     * This view holder is public to use for databinding onClick.
+     *
+     * We use the currentPosition to handle click calls.
+     */
+
     public class GameItemViewHolder extends RecyclerView.ViewHolder {
         ListItemGameBinding listItemGameBinding;
         int currentPosition;
@@ -84,7 +89,7 @@ public class GameItemAdapter extends Adapter {
             listItemGameBinding.setHandlers(this);
         }
 
-        public void onClick(View v) {
+         public void onClick(View v) {
             if (listener != null) {
                 listener.onItemClick(currentPosition, gameList.getGames().get(currentPosition));
                 setSelectedItemPosition(currentPosition);
@@ -97,8 +102,6 @@ public class GameItemAdapter extends Adapter {
             listItemGameBinding.setGame(game);
             listItemGameBinding.getRoot().setSelected(selectedItemPosition == position);
         }
-
-
     }
 
 }

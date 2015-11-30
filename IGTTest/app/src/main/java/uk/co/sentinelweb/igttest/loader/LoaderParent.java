@@ -8,7 +8,6 @@ import android.text.format.DateUtils;
 
 public abstract class LoaderParent<T> extends AsyncTaskLoader<T> {
     private T data;
-    private long lastLoaded = 0;
 
     public LoaderParent(Context context) {
         super(context);
@@ -23,7 +22,6 @@ public abstract class LoaderParent<T> extends AsyncTaskLoader<T> {
 
         if (data != null) {
             deliverResult(data);
-            lastLoaded = SystemClock.uptimeMillis();
             return;
         }
 
@@ -36,15 +34,4 @@ public abstract class LoaderParent<T> extends AsyncTaskLoader<T> {
         super.deliverResult(data);
     }
 
-    public void deliverCachedResult() {
-        if (data != null) {
-            super.deliverResult(data);
-        } else {
-            throw new RuntimeException("No data cached");
-        }
-    }
-
-    public boolean isExpired(final int sec) {
-        return SystemClock.uptimeMillis() > lastLoaded + sec * DateUtils.SECOND_IN_MILLIS;
-    }
 }
